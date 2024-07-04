@@ -1,0 +1,58 @@
+From 53871eada7cdc9fa76af165d68f299f7bf83e898 Mon Sep 17 00:00:00 2001
+From: Ding Nan <dingnan21@qq.com>
+Date: Mon, 1 Jul 2024 17:16:42 +0800
+Subject: [PATCH] add support for Mercury_D26G_Pro_16M in lede
+
+---
+ target/linux/ramips/image/mt7621.mk                      | 9 +++++++++
+ .../ramips/mt7621/base-files/etc/board.d/02_network      | 7 +++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
+index cb3382f7f..85bce8ddc 100644
+--- a/target/linux/ramips/image/mt7621.mk
++++ b/target/linux/ramips/image/mt7621.mk
+@@ -1170,6 +1170,15 @@ define Device/mediatek_mt7621-eval-board
+ endef
+ TARGET_DEVICES += mediatek_mt7621-eval-board
+ 
++define Device/mercury_d26g_16m
++  $(Device/uimage-lzma-loader)
++  IMAGE_SIZE := 16128k
++  DEVICE_MODEL := D26G Pro(16M)
++  DEVICE_VENDOR := Mercury
++  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 -uboot-envtools
++endef
++TARGET_DEVICES += mercury_d26g_16m
++
+ define Device/MikroTik
+   $(Device/dsa-migration)
+   DEVICE_VENDOR := MikroTik
+diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+index 6d5d8265d..ab46d5b68 100644
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+@@ -115,6 +115,9 @@ ramips_setup_interfaces()
+ 		ucidef_add_switch "switch0" \
+ 			"2:lan:1" "3:lan:2" "4:lan:3" "0:wan" "6u@eth0" "5u@eth1"
+ 		;;
++	mercury,d26g_16m)
++                ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
++                ;;
+ 	xiaomi,mi-router-cr660x)
+ 		ucidef_add_switch "switch0" \
+ 			"0:lan" "1:lan" "2:lan" "4:wan" "6u@eth0" "5u@eth1"
+@@ -249,6 +252,10 @@ ramips_setup_macs()
+ 		lan_mac=$(cat /sys/class/net/eth0/address)
+ 		wan_mac=$(macaddr_add "$lan_mac" -1)
+ 		;;
++	 mercury,d26g_16m)
++                lan_mac=$(mtd_get_mac_binary factory 0xe000)
++                wan_mac=$(mtd_get_mac_binary factory 0xe006)
++                ;;
+ 	esac
+ 
+ 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
+-- 
+2.25.1
+

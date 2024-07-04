@@ -1,0 +1,67 @@
+From d863e0b419b3a8b9604bea2362e78cceb584106c Mon Sep 17 00:00:00 2001
+From: Ding Nan <dingnan21@qq.com>
+Date: Tue, 2 Jul 2024 11:47:17 +0800
+Subject: [PATCH] Add support:Mercury D26G Pro 8M & 16M
+
+---
+ target/linux/ramips/image/mt7621.mk            | 18 ++++++++++++++++++
+ .../mt7621/base-files/etc/board.d/02_network   |  7 +++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
+index 1a8df617b5..30871cd264 100644
+--- a/target/linux/ramips/image/mt7621.mk
++++ b/target/linux/ramips/image/mt7621.mk
+@@ -1621,6 +1621,24 @@ define Device/mercusys_mr70x-v1
+ endef
+ TARGET_DEVICES += mercusys_mr70x-v1
+ 
++define Device/mercury_d26g_8m
++  $(Device/uimage-lzma-loader)
++  IMAGE_SIZE := 7808k
++  DEVICE_MODEL := D26G Pro(8M)
++  DEVICE_VENDOR := Mercury
++  DEVICE_PACKAGES := kmod-mt7615-firmware -kmod-usb3 -uboot-envtools
++endef
++TARGET_DEVICES += mercury_d26g_8m
++
++define Device/mercury_d26g_16m
++  $(Device/uimage-lzma-loader)
++  IMAGE_SIZE := 16128k
++  DEVICE_MODEL := D26G Pro(16M)
++  DEVICE_VENDOR := Mercury
++  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 uboot-envtools
++endef
++TARGET_DEVICES += mercury_d26g_16m
++
+ define Device/MikroTik
+   $(Device/dsa-migration)
+   DEVICE_VENDOR := MikroTik
+diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+index 8aabf41928..559ab336ca 100644
+--- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
++++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+@@ -18,6 +18,8 @@ ramips_setup_interfaces()
+ 	haier,har-20s2u1|\
+ 	hiwifi,hc5962|\
+ 	mercusys,mr70x-v1|\
++	mercury,d26g_8m|\
++	mercury,d26g_16m|\
+ 	netgear,wax202|\
+ 	sim,simax1800t|\
+ 	xiaomi,mi-router-3-pro|\
+@@ -293,6 +295,11 @@ ramips_setup_macs()
+ 		wan_mac=$label_mac
+ 		lan_mac=$(macaddr_add $label_mac 1)
+ 		;;
++	mercury,d26g_8m|\
++	mercury,d26g_16m)
++		lan_mac=$(mtd_get_mac_binary factory 0xe000)
++		wan_mac=$(mtd_get_mac_binary factory 0xe006)
++		;;
+ 	mts,wg430223)
+ 		wan_mac=$(mtd_get_mac_encrypted_arcadyan "board_data")
+ 		label_mac=$wan_mac
+-- 
+2.25.1
+
