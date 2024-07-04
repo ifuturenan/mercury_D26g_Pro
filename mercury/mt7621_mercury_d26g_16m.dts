@@ -70,7 +70,7 @@
                         partition@40000 {
                                 compatible = "denx,uimage";
                                 label = "firmware";
-                                reg = <0x40000 0xfb0000>;
+				reg = <0x40000 0xfb0000>;
                         };
                 };
         };
@@ -90,19 +90,19 @@
 			mtd-mac-address-increment = <1>;
                 };
 
+                port@1 {
+                        status = "okay";
+                        label = "lan1";
+                };
+
                 port@2 {
                         status = "okay";
-                        label = "eth1";
+                        label = "lan2";
                 };
 
                 port@3 {
                         status = "okay";
-                        label = "eth2";
-                };
-
-                port@4 {
-                        status = "okay";
-                        label = "eth3";
+                        label = "lan3";
                 };
 
 	};
@@ -133,7 +133,7 @@
                 reg = <0x0000 0 0 0 0>;
                 mediatek,mtd-eeprom = <&factory 0x8000>;
 		mtd-mac-address = <&factory 0xe000>;
-         	mtd-mac-address-increment = <2>;
+		mtd-mac-address-increment = <2>;
                 ieee80211-freq-limit = <5000000 6000000>;
         };
 };

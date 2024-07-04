@@ -21,7 +21,7 @@ index 1a8df617b5..30871cd264 100644
 +  IMAGE_SIZE := 7808k
 +  DEVICE_MODEL := D26G Pro(8M)
 +  DEVICE_VENDOR := Mercury
-+  DEVICE_PACKAGES := kmod-mt7615-firmware -kmod-usb3 -uboot-envtools
++  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 -uboot-envtools
 +endef
 +TARGET_DEVICES += mercury_d26g_8m
 +

@@ -70,7 +70,7 @@
                         partition@40000 {
                                 compatible = "denx,uimage";
                                 label = "firmware";
-                                reg = <0x40000 0x7b0000>;
+				reg = <0x40000 0x7b0000>;
                         };
                 };
         };
@@ -90,19 +90,19 @@
 			mtd-mac-address-increment = <1>;
                 };
 
+                port@1 {
+                        status = "okay";
+                        label = "lan1";
+                };
+
                 port@2 {
                         status = "okay";
-                        label = "eth1";
+                        label = "lan2";
                 };
 
                 port@3 {
                         status = "okay";
-                        label = "eth2";
-                };
-
-                port@4 {
-                        status = "okay";
-                        label = "eth3";
+                        label = "lan3";
                 };
 
 	};
