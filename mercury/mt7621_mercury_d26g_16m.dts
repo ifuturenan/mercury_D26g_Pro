@@ -90,17 +90,17 @@
 			mtd-mac-address-increment = <1>;
                 };
 
-                port@1 {
+                port@2 {
                         status = "okay";
                         label = "lan1";
                 };
 
-                port@2 {
+                port@3 {
                         status = "okay";
                         label = "lan2";
                 };
 
-                port@3 {
+                port@4 {
                         status = "okay";
                         label = "lan3";
                 };
