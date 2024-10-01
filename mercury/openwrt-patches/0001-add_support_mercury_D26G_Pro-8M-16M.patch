@@ -1,7 +1,7 @@
-From d863e0b419b3a8b9604bea2362e78cceb584106c Mon Sep 17 00:00:00 2001
+From c62c158072a47a7b0b0712acccb06e5755cbf244 Mon Sep 17 00:00:00 2001
 From: Ding Nan <dingnan21@qq.com>
-Date: Tue, 2 Jul 2024 11:47:17 +0800
-Subject: [PATCH] Add support:Mercury D26G Pro 8M & 16M
+Date: Fri, 27 Sep 2024 10:59:24 +0800
+Subject: [PATCH] add_support_mercury_D26G_Pro(8M/16M)
 
 ---
  target/linux/ramips/image/mt7621.mk            | 18 ++++++++++++++++++
@@ -9,7 +9,7 @@ Subject: [PATCH] Add support:Mercury D26G Pro 8M & 16M
  2 files changed, 25 insertions(+)
 
 diff --git a/target/linux/ramips/image/mt7621.mk b/target/linux/ramips/image/mt7621.mk
-index 1a8df617b5..30871cd264 100644
+index ce9fcbe518..a9a4f8714c 100644
 --- a/target/linux/ramips/image/mt7621.mk
 +++ b/target/linux/ramips/image/mt7621.mk
 @@ -1621,6 +1621,24 @@ define Device/mercusys_mr70x-v1
@@ -21,7 +21,7 @@ index 1a8df617b5..30871cd264 100644
 +  IMAGE_SIZE := 7808k
 +  DEVICE_MODEL := D26G Pro(8M)
 +  DEVICE_VENDOR := Mercury
-+  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 -uboot-envtools
++  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-tcp-bbr -uboot-envtools
 +endef
 +TARGET_DEVICES += mercury_d26g_8m
 +
@@ -30,7 +30,7 @@ index 1a8df617b5..30871cd264 100644
 +  IMAGE_SIZE := 16128k
 +  DEVICE_MODEL := D26G Pro(16M)
 +  DEVICE_VENDOR := Mercury
-+  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 uboot-envtools
++  DEVICE_PACKAGES := kmod-mt7615-firmware kmod-tcp-bbr libopenssl-devcrypto kmod-usb3 uboot-envtools
 +endef
 +TARGET_DEVICES += mercury_d26g_16m
 +
@@ -38,7 +38,7 @@ index 1a8df617b5..30871cd264 100644
    $(Device/dsa-migration)
    DEVICE_VENDOR := MikroTik
 diff --git a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-index 8aabf41928..559ab336ca 100644
+index 71e6f93862..d6ba2f02ae 100644
 --- a/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 +++ b/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
 @@ -18,6 +18,8 @@ ramips_setup_interfaces()
@@ -50,7 +50,7 @@ index 8aabf41928..559ab336ca 100644
  	netgear,wax202|\
  	sim,simax1800t|\
  	xiaomi,mi-router-3-pro|\
-@@ -293,6 +295,11 @@ ramips_setup_macs()
+@@ -297,6 +299,11 @@ ramips_setup_macs()
  		wan_mac=$label_mac
  		lan_mac=$(macaddr_add $label_mac 1)
  		;;
